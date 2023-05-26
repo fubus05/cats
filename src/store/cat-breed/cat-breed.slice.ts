@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { TCatBreed } from '../../types/cat-breed.type'
 
-export const getCatBreeds = createAsyncThunk('cat_breeds/getCatBreeds', async () => {
+export const getCatBreeds = createAsyncThunk<TCatBreed>('cat_breeds/getCatBreeds', async () => {
   const response = await axios.get('https://api.thecatapi.com/v1/breeds')
   return response.data
 })
@@ -9,7 +10,7 @@ export const getCatBreeds = createAsyncThunk('cat_breeds/getCatBreeds', async ()
 export const catBreedSlice = createSlice({
   name: 'cat_breeds',
   initialState: {
-    data: [],
+    data: [] as TCatBreed,
     loading: 'idle',
     error: 'none',
   },

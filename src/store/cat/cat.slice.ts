@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { ICatPhoto, ICatDescription } from '../../types/cat.type';
 
 interface ICatState {
   data: any[];
@@ -7,12 +8,12 @@ interface ICatState {
   error: 'none' | string;
 }
 
-// in this func getCat i do two request in one because it help me to optimize procees because we have the same id but different url so in this situation Promise.all help to solve this problem
-export const getCat = createAsyncThunk<any[], any>('cat/getCat', async (breed_ids) => {
+export const getCat = createAsyncThunk<ICatPhoto[], ICatDescription>('cat/getCat', async (breed_ids) => {
   const req1 = axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${breed_ids}&limit=10`)
   const req2 = axios.get(`https://api.thecatapi.com/v1/breeds/${breed_ids}`)
   const [response1, response2] = await Promise.all([req1, req2]);
   const combinedData = [response1.data, response2.data];
+  console.log(breed_ids)
   return combinedData
 })
 
